@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo List</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <header class="header">
+      <h1 class="header-title">JS todo list</h1>
+    </header>
+    <div class="app-container">
+      <aside class="project-section">
+        <h2 class="project-title">Projects</h2>
+        <div class="separator"></div>
+        <div class="project-container">
+          <div class="project-el">
+            <p class="project-name">Example Project</p>
+            <img src="./resource/trash.png" alt="trash" />
+          </div>
+          <div class="project-el">
+            <p class="project-name">Example Project</p>
+            <img src="./resource/trash.png" alt="trash" />
+          </div>
+        </div>
+        <span class="add-project">+</span>
+      </aside>
+      <main class="todo-section">
+        <div class="project-display">
+          <h2 class="display-tittle">Example project</h2>
+          <p class="display-description">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum
+            consequuntur a numquam veniam quos, cum maiores quo omnis autem
+            minus, odit architecto sunt porro animi provident repellat ducimus
+            laboriosam tempora!
+          </p>
+          <div class="separator"></div>
+          <div class="todos-container">
+            <div class="todo">
+              <div class="front-todo">
+                <input type="checkbox" />
+                <p class="todo-name">Name todo</p>
+              </div>
+              <div class="back-todo">
+                <p class="todo-date">3 months ago</p>
+                <img src="./resource/trash.png" alt="icon-trash" />
+              </div>
+            </div>
+            <div class="todo">
+              <div class="front-todo">
+                <input type="checkbox" />
+                <p class="todo-name">Name todo</p>
+              </div>
+              <div class="back-todo">
+                <p class="todo-date">3 months ago</p>
+                <img src="./resource/trash.png" alt="icon-trash" />
+              </div>
+            </div>
+          </div>
+          <span class="add-project">+</span>
+        </div>
+      </main>
+    </div>
+    <script src="todo.js"></script>
+  </body>
+</html>
