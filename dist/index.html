@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Todo List</title>
-    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="../src/style.css" />
   </head>
   <body>
     <header class="header">
@@ -16,18 +16,27 @@
         <h2 class="project-title">Projects</h2>
         <div class="separator"></div>
         <div class="project-container">
-          <div class="project-el">
+          <div class="project-el" data-num="0">
             <p class="project-name">Example Project</p>
-            <img src="./resource/trash.png" alt="trash" />
-          </div>
-          <div class="project-el">
-            <p class="project-name">Example Project</p>
-            <img src="./resource/trash.png" alt="trash" />
+            <img src="../src/resource/trash.png" alt="trash" />
           </div>
         </div>
         <span class="add-project">+</span>
+        <form class="form" id="form">
+          <div class="container-input">
+            <label for="title-project">Project Title</label>
+            <input id="title-project" type="text" required />
+          </div>
+
+          <div class="container-input">
+            <label for="project-description">Project description</label>
+            <input id="project-description" type="text" required />
+          </div>
+
+          <button type="submit" id="add-box-btn">Add a project</button>
+        </form>
       </aside>
-      <main class="todo-section">
+      <!-- <main class="todo-section">
         <div class="project-display">
           <h2 class="display-tittle">Example project</h2>
           <p class="display-description">
@@ -45,7 +54,7 @@
               </div>
               <div class="back-todo">
                 <p class="todo-date">3 months ago</p>
-                <img src="./resource/trash.png" alt="icon-trash" />
+                <img src="../src/resource/trash.png" alt="icon-trash" />
               </div>
             </div>
             <div class="todo">
@@ -55,14 +64,38 @@
               </div>
               <div class="back-todo">
                 <p class="todo-date">3 months ago</p>
-                <img src="./resource/trash.png" alt="icon-trash" />
+                <img src="../src/resource/trash.png" alt="icon-trash" />
               </div>
             </div>
           </div>
           <span class="add-project">+</span>
+          
+          <form class="form" id="form">
+            <div class="container-input">
+              <label for="title-todo">Todo Title</label>
+              <input id="title-todo" type="text" required />
+            </div>
+
+            <div class="container-input">
+              <label for="todo-description">Todo desciption</label>
+              <input id="todo-description" type="text" required />
+            </div>
+            <div class="container-input">
+              <label for="date-todo">Date todo</label>
+              <input
+                id="date-todo"
+                type="date"
+                value="2021-11-04"
+                min="1966-01-01"
+                max="2025-12-31"
+                required
+              />
+            </div>
+            <button type="submit" id="add-box-btn">Add a todo</button>
+          </form>
         </div>
-      </main>
+      </main> -->
     </div>
-    <script src="todo.js"></script>
+    <script src="main.js"></script>
   </body>
 </html>
