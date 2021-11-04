@@ -100,14 +100,26 @@ const domGenerator = function () {
 
     //event listener para cambiar el proyecto al hacer click en label
     label.addEventListener("click", () => {
-      console.log(project.projecNum);
+      changeDisplayContent(project);
     });
   };
 
-  const generateNewProject = (project) => {
+  //solo cambia el proyecto
+  const changeDisplayContent = (project) => {
     const currentProject = document.querySelector(".todo-section");
     if (currentProject) {
-      //si existe lo remueve y el nuevo
+      //si existe lo remueve y coloca el nuevo
+      const projectEl = document.querySelector(".todo-section");
+      document.querySelector(".app-container").removeChild(projectEl);
+    }
+    createProjectContent(project);
+  };
+
+  //crea y cambia el proyecto
+  const generateNewProjectAndChange = (project) => {
+    const currentProject = document.querySelector(".todo-section");
+    if (currentProject) {
+      //si existe lo remueve y coloca el nuevo
       const projectEl = document.querySelector(".todo-section");
       document.querySelector(".app-container").removeChild(projectEl);
     }
@@ -120,7 +132,7 @@ const domGenerator = function () {
     createTodo,
     createProjectContent,
     createProjectLabel,
-    generateNewProject,
+    generateNewProjectAndChange,
   };
 };
 

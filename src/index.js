@@ -11,7 +11,7 @@ document.querySelector("#add-box-btn").addEventListener("click", (e) => {
   const description = document.getElementById("project-description").value;
   //crea el objeto y lo guarda en una variable
   const newProject = projectManager.createProject(titleName, description);
-  contentGenerator.generateNewProject(newProject);
+  contentGenerator.generateNewProjectAndChange(newProject);
 
   //   if (document.querySelector(".todo-section")) {
   //     const projectEl = document.querySelector(".todo-section");
