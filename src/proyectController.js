@@ -1,7 +1,7 @@
 import { Project } from "./project";
 
 const controller = function () {
-  let projectNum = 1;
+  let projectNum = 0;
 
   const projects = [];
 

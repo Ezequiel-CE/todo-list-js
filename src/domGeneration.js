@@ -1,7 +1,9 @@
+import { Todos } from "./todo";
+
 const domGenerator = function () {
   const allProjectElements = [];
 
-  const createTodo = function (todo) {
+  const createTodo = function (todo, todoContainer = null) {
     let html = `
     <div class="front-todo">
       <input type="checkbox" />
@@ -16,6 +18,11 @@ const domGenerator = function () {
     const newTodo = document.createElement("div");
     newTodo.classList.add("todo");
     newTodo.innerHTML = html;
+    //si existe lo pega en el elemento que pasemos
+    if (todoContainer) {
+      todoContainer.appendChild(newTodo);
+      return;
+    }
     document.querySelector(".todos-container").appendChild(newTodo);
   };
 
@@ -28,26 +35,7 @@ const domGenerator = function () {
       </p>
       <div class="separator"></div>
       <div class="todos-container">
-        <div class="todo">
-          <div class="front-todo">
-            <input type="checkbox" />
-            <p class="todo-name">Name todo</p>
-          </div>
-          <div class="back-todo">
-            <p class="todo-date">3 months ago</p>
-            <img src="../src/resource/trash.png" alt="icon-trash" />
-          </div>
-        </div>
-        <div class="todo">
-          <div class="front-todo">
-            <input type="checkbox" />
-            <p class="todo-name">Name todo</p>
-          </div>
-          <div class="back-todo">
-            <p class="todo-date">3 months ago</p>
-            <img src="../src/resource/trash.png" alt="icon-trash" />
-          </div>
-        </div>
+      
       </div>
       <span class="add-project">+</span>
       <!-- form -->
@@ -72,7 +60,7 @@ const domGenerator = function () {
             required
           />
         </div>
-        <button type="submit" id="add-box-btn">Add a todo</button>
+        <button type="submit" id="add-todo-btn">Add a todo</button>
       </form>
     </div>
   `;
@@ -81,9 +69,28 @@ const domGenerator = function () {
     newProject.classList.add("todo-section");
     newProject.setAttribute("data-num", project.projecNum);
     newProject.innerHTML = html;
+
+    const todoContainer = newProject.querySelector(".todos-container");
+    //agrega los todos al display
+    project.todos.forEach((todo) => {
+      createTodo(todo, todoContainer);
+    });
+
+    //agrega crea el todo
+    const formBtnTodo = newProject.querySelector("#add-todo-btn");
+
+    formBtnTodo.addEventListener("click", function (e) {
+      e.preventDefault();
+      const titleData = document.getElementById("title-todo").value;
+      const descriptionData = document.getElementById("todo-description").value;
+      const dateData = document.getElementById("date-todo").value;
+      console.log(titleData, descriptionData, dateData);
+      //crea y deviel el nuevo todo
+      const newTodo = project.createTodo(titleData, descriptionData, dateData);
+      createTodo(newTodo);
+    });
+
     document.querySelector(".app-container").appendChild(newProject);
-    console.log(newProject);
-    allProjectElements.push(newProject);
   };
 
   const createProjectLabel = function (project) {
@@ -123,9 +130,9 @@ const domGenerator = function () {
       const projectEl = document.querySelector(".todo-section");
       document.querySelector(".app-container").removeChild(projectEl);
     }
-    createProjectContent(project);
+    //crea label y contenido quel o mete en array
+    allProjectElements.push(createProjectContent(project));
     createProjectLabel(project);
-    console.log(project);
   };
 
   return {

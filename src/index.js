@@ -1,9 +1,23 @@
 import { domGenerator } from "./domGeneration";
 import { controller } from "./proyectController";
-import { Todos } from "./todo";
 
 const contentGenerator = domGenerator();
 const projectManager = controller();
+
+const example = function () {
+  const examplePro = projectManager.createProject(
+    "Example",
+    "Example description"
+  );
+
+  examplePro.createTodo("example1", "description", "any date");
+  examplePro.createTodo("example2", "description", "any date");
+
+  contentGenerator.createProjectContent(examplePro);
+  contentGenerator.createProjectLabel(examplePro);
+};
+
+example();
 
 document.querySelector("#add-box-btn").addEventListener("click", (e) => {
   e.preventDefault();

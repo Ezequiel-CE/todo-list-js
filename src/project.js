@@ -6,10 +6,13 @@ class Project {
     this.description = description;
     this.projecNum = projecNum;
     this.todos = [];
+    this.todoNum = 0;
   }
 
-  addTodo(todo) {
-    this.todos.push(todo);
+  createTodo(title, description, data) {
+    const newTodo = new Todos(title, description, data, this.todoNum++);
+    this.todos.push(newTodo);
+    return newTodo;
   }
 
   deleteTodo() {}
