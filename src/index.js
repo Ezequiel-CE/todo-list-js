@@ -2,13 +2,9 @@ import { domGenerator } from "./domGeneration";
 import { controller } from "./proyectController";
 
 const contentGenerator = domGenerator();
-const projectManager = controller();
 
 const example = function () {
-  const examplePro = projectManager.createProject(
-    "Example",
-    "Example description"
-  );
+  const examplePro = controller.createProject("Example", "Example description");
 
   examplePro.createTodo("example1", "description", "any date");
   examplePro.createTodo("example2", "description", "any date");
@@ -24,7 +20,7 @@ document.querySelector("#add-box-btn").addEventListener("click", (e) => {
   const titleName = document.getElementById("title-project").value;
   const description = document.getElementById("project-description").value;
   //crea el objeto y lo guarda en una variable
-  const newProject = projectManager.createProject(titleName, description);
+  const newProject = controller.createProject(titleName, description);
   contentGenerator.generateNewProjectAndChange(newProject);
 
   //   if (document.querySelector(".todo-section")) {

@@ -1,6 +1,6 @@
 import { Project } from "./project";
 
-const controller = function () {
+const controller = (function () {
   let projectNum = 0;
 
   const projects = [];
@@ -22,6 +22,6 @@ const controller = function () {
   const modifyProject = () => {};
 
   return { createProject, displayProject, projects };
-};
+})();
 
 export { controller };
