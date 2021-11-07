@@ -116,16 +116,18 @@ const domGenerator = function () {
     const trashIco = label.querySelector("img");
     trashIco.addEventListener("click", (e) => {
       const labelProyect = e.target.closest(".project-el");
-      //borra el projecto y devulve su index
-      const indexOfDeletedProject = controller.DeleteProject(
+      //encuentra index del projecto y lo borrar del arr
+      const indexOfDeletedProject = controller.getIndexProjects(
         labelProyect.dataset.num
       );
+      controller.DeleteProject(labelProyect.dataset.num);
       deleteLabel(labelProyect);
       //condicion para que no siga borrando si no hay proyectos
       if (controller.projects.length === 0) {
         document.querySelector(".todo-section").innerHTML = "";
         return;
       }
+      console.log(indexOfDeletedProject);
       changeDisplayContent(controller.projects[indexOfDeletedProject - 1]);
     });
   };

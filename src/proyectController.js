@@ -19,15 +19,26 @@ const controller = (function () {
   };
 
   const DeleteProject = (projectNumber) => {
+    projects.splice(getIndexProjects(projectNumber), 1);
+  };
+
+  //devuelve el index del elemento que queremos
+  const getIndexProjects = (projectNumber) => {
     const projectIndex = projects.findIndex(
       (pro) => pro.num === parseInt(projectNumber)
     );
-    projects.splice(projectIndex, 1);
+
     return projectIndex;
   };
   const modifyProject = () => {};
 
-  return { createProject, displayProject, projects, DeleteProject };
+  return {
+    createProject,
+    displayProject,
+    projects,
+    DeleteProject,
+    getIndexProjects,
+  };
 })();
 
 export { controller };
