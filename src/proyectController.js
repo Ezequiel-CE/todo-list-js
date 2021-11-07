@@ -18,10 +18,16 @@ const controller = (function () {
     generator.createProject(projects[0]);
   };
 
-  const DeleteProject = () => {};
+  const DeleteProject = (projectNumber) => {
+    const projectIndex = projects.findIndex(
+      (pro) => pro.num === parseInt(projectNumber)
+    );
+    projects.splice(projectIndex, 1);
+    return projectIndex;
+  };
   const modifyProject = () => {};
 
-  return { createProject, displayProject, projects };
+  return { createProject, displayProject, projects, DeleteProject };
 })();
 
 export { controller };

@@ -1,4 +1,5 @@
 import { Todos } from "./todo";
+import { controller } from "./proyectController";
 
 const domGenerator = function () {
   const allProjectElements = [];
@@ -102,13 +103,38 @@ const domGenerator = function () {
     const label = document.createElement("div");
     label.classList.add("project-el");
     label.innerHTML = html;
-    label.setAttribute("data-num", project.projecNum);
+    label.setAttribute("data-num", project.num);
     document.querySelector(".project-container").appendChild(label);
 
     //event listener para cambiar el proyecto al hacer click en label
-    label.addEventListener("click", () => {
+    const LabelName = label.querySelector(".project-name");
+    LabelName.addEventListener("click", () => {
       changeDisplayContent(project);
     });
+
+    //borrar el proyecto
+    const trashIco = label.querySelector("img");
+    trashIco.addEventListener("click", (e) => {
+      const labelProyect = e.target.closest(".project-el");
+      //borra el projecto y devulve su index
+      const indexOfDeletedProject = controller.DeleteProject(
+        labelProyect.dataset.num
+      );
+      deleteLabel(labelProyect);
+      //condicion para que no siga borrando si no hay proyectos
+      if (controller.projects.length === 0) {
+        document.querySelector(".todo-section").innerHTML = "";
+        return;
+      }
+      changeDisplayContent(controller.projects[indexOfDeletedProject - 1]);
+    });
+  };
+
+  //borrar label
+
+  const deleteLabel = (label) => {
+    const projectContainer = document.querySelector(".project-container");
+    projectContainer.removeChild(label);
   };
 
   //solo cambia el proyecto

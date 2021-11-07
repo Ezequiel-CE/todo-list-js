@@ -4,7 +4,7 @@ class Project {
   constructor(name, description, projecNum) {
     this.name = name;
     this.description = description;
-    this.projecNum = projecNum;
+    this.num = projecNum;
     this.todos = [];
     this.todoNum = 0;
   }
