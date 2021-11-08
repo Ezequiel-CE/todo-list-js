@@ -27,7 +27,9 @@ class Project {
     return todoIndex;
   };
 
-  modifyTodo() {}
+  modifyTittle(newTittle) {
+    this.name = newTittle;
+  }
 }
 
 export { Project };

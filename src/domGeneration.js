@@ -87,6 +87,7 @@ const domGenerator = function () {
     let html = `
     <div class="project-display">
       <h2 class="display-tittle">${project.name}</h2>
+      <input class="title-change hide"  type="text" />
       <p class="display-description">
         ${project.description}
       </p>
@@ -139,7 +140,31 @@ const domGenerator = function () {
       addTodoHandler(e, project);
     });
 
+    //edita titulo
+    const titleEl = newProject.querySelector(".display-tittle");
+    titleEl.addEventListener("click", () => {
+      editProjectTittle(newProject, titleEl, project);
+    });
+
     document.querySelector(".app-container").appendChild(newProject);
+  };
+
+  const editProjectTittle = function (project, tittle, projectObj) {
+    const inputEL = project.querySelector(".title-change");
+    tittle.classList.add("hide");
+    inputEL.classList.remove("hide");
+    inputEL.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        tittle.textContent = e.target.value;
+        projectObj.modifyTittle(e.target.value);
+        const labelOfProject = [
+          ...document.querySelectorAll(".project-el"),
+        ].find((label) => label.dataset.num === project.dataset.num);
+        labelOfProject.children[0].textContent = e.target.value;
+        tittle.classList.remove("hide");
+        inputEL.classList.add("hide");
+      }
+    });
   };
 
   //////create a todo hadle
