@@ -15,7 +15,17 @@ class Project {
     return newTodo;
   }
 
-  deleteTodo() {}
+  deleteTodo(todoNum) {
+    this.todos.splice(this.getIndexTodo(todoNum), 1);
+  }
+
+  getIndexTodo = (todoNumber) => {
+    const todoIndex = this.todos.findIndex(
+      (todo) => todo.num === parseInt(todoNumber)
+    );
+
+    return todoIndex;
+  };
 
   modifyTodo() {}
 }

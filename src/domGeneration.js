@@ -4,7 +4,8 @@ import { controller } from "./proyectController";
 const domGenerator = function () {
   const allProjectElements = [];
 
-  const createTodo = function (todo, todoContainer = null) {
+  const createTodo = function (project, todo, todoContainer = null) {
+    //console.log(project, todo, todoContainer);
     let html = `
     <div class="front-todo">
       <input type="checkbox" />
@@ -19,12 +20,27 @@ const domGenerator = function () {
     const newTodo = document.createElement("div");
     newTodo.classList.add("todo");
     newTodo.innerHTML = html;
+    newTodo.setAttribute("data-num", todo.num);
+
+    //delete todos
+    const trashIcoTodo = newTodo.querySelector("img");
+    trashIcoTodo.addEventListener("click", (e) => {
+      deleteTodoHandler(e, project);
+    });
+
     //si existe lo pega en el elemento que pasemos
     if (todoContainer) {
       todoContainer.appendChild(newTodo);
       return;
     }
     document.querySelector(".todos-container").appendChild(newTodo);
+  };
+
+  const deleteTodoHandler = function (e, project) {
+    if (project.todos.length === 0) return;
+    const TodoEl = e.target.closest(".todo");
+    project.deleteTodo(TodoEl.dataset.num);
+    document.querySelector(".todos-container").removeChild(TodoEl);
   };
 
   const createProjectContent = function (project) {
@@ -71,28 +87,35 @@ const domGenerator = function () {
     newProject.setAttribute("data-num", project.projecNum);
     newProject.innerHTML = html;
 
-    const todoContainer = newProject.querySelector(".todos-container");
     //agrega los todos al display
+    const todoContainer = newProject.querySelector(".todos-container");
     project.todos.forEach((todo) => {
-      createTodo(todo, todoContainer);
+      createTodo(project, todo, todoContainer);
     });
 
     //agrega crea el todo
     const formBtnTodo = newProject.querySelector("#add-todo-btn");
-
-    formBtnTodo.addEventListener("click", function (e) {
-      e.preventDefault();
-      const titleData = document.getElementById("title-todo").value;
-      const descriptionData = document.getElementById("todo-description").value;
-      const dateData = document.getElementById("date-todo").value;
-      console.log(titleData, descriptionData, dateData);
-      //crea y deviel el nuevo todo
-      const newTodo = project.createTodo(titleData, descriptionData, dateData);
-      createTodo(newTodo);
+    formBtnTodo.addEventListener("click", (e) => {
+      addTodoHandler(e, project);
     });
 
     document.querySelector(".app-container").appendChild(newProject);
   };
+
+  //////create a todo hadle
+
+  const addTodoHandler = function (e, project) {
+    e.preventDefault();
+    const titleData = document.getElementById("title-todo").value;
+    const descriptionData = document.getElementById("todo-description").value;
+    const dateData = document.getElementById("date-todo").value;
+    console.log(titleData, descriptionData, dateData);
+    //crea y deviel el nuevo todo
+    const newTodo = project.createTodo(titleData, descriptionData, dateData);
+    createTodo(project, newTodo);
+  };
+
+  //// modificar nombre projecto
 
   const createProjectLabel = function (project) {
     let html = `
@@ -114,22 +137,24 @@ const domGenerator = function () {
 
     //borrar el proyecto
     const trashIco = label.querySelector("img");
-    trashIco.addEventListener("click", (e) => {
-      const labelProyect = e.target.closest(".project-el");
-      //encuentra index del projecto y lo borrar del arr
-      const indexOfDeletedProject = controller.getIndexProjects(
-        labelProyect.dataset.num
-      );
-      controller.DeleteProject(labelProyect.dataset.num);
-      deleteLabel(labelProyect);
-      //condicion para que no siga borrando si no hay proyectos
-      if (controller.projects.length === 0) {
-        document.querySelector(".todo-section").innerHTML = "";
-        return;
-      }
-      console.log(indexOfDeletedProject);
-      changeDisplayContent(controller.projects[indexOfDeletedProject - 1]);
-    });
+    trashIco.addEventListener("click", deleteProjectHandler);
+  };
+
+  //borrar project handler event
+  const deleteProjectHandler = (e) => {
+    const labelProyect = e.target.closest(".project-el");
+    //encuentra index del projecto y lo borrar del arr
+    const indexOfDeletedProject = controller.getIndexProjects(
+      labelProyect.dataset.num
+    );
+    controller.DeleteProject(labelProyect.dataset.num);
+    deleteLabel(labelProyect);
+    //condicion para que no siga borrando si no hay proyectos
+    if (controller.projects.length === 0) {
+      document.querySelector(".todo-section").innerHTML = "";
+      return;
+    }
+    changeDisplayContent(controller.projects[indexOfDeletedProject - 1]);
   };
 
   //borrar label
