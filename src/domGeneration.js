@@ -5,27 +5,46 @@ const domGenerator = function () {
   const allProjectElements = [];
 
   const createTodo = function (project, todo, todoContainer = null) {
-    //console.log(project, todo, todoContainer);
     let html = `
-    <div class="front-todo">
-      <input type="checkbox" />
-      <p class="todo-name">${todo.title}</p>
+    <div class="todo">
+      <div class="front-todo">
+        <input type="checkbox" />
+        <p class="todo-name">${todo.title}</p>
+      </div>
+      <div class="back-todo">
+        <p class="todo-date">${todo.dueDate}</p>
+        <img class="drop" src="../src/resource/chevron-down-outline.svg" alt="icon-drop" />
+        <img class="todo-trash" src="../src/resource/trash.png" alt="icon-trash" />
+      </div>
     </div>
-    <div class="back-todo">
-      <p class="todo-date">${todo.dueDate}</p>
-      <img src="../src/resource/trash.png" alt="icon-trash" />
+    <div class="description hide">
+    <h2 class="tittle-des">Description</h2>
+    <p class="text-des" >${todo.description}</p>
     </div>
+    
   `;
 
     const newTodo = document.createElement("div");
-    newTodo.classList.add("todo");
+    newTodo.classList.add("full-todo");
     newTodo.innerHTML = html;
     newTodo.setAttribute("data-num", todo.num);
 
     //delete todos
-    const trashIcoTodo = newTodo.querySelector("img");
+    const trashIcoTodo = newTodo.querySelector(".todo-trash");
     trashIcoTodo.addEventListener("click", (e) => {
       deleteTodoHandler(e, project);
+    });
+
+    //completa todos
+    const checkBox = newTodo.querySelector("input");
+    checkBox.addEventListener("change", () => {
+      finishedTodoHandler(todo, newTodo);
+    });
+
+    //abre description
+    const dropDescription = newTodo.querySelector(".drop");
+    dropDescription.addEventListener("click", () => {
+      displayTodoDescription(newTodo);
     });
 
     //si existe lo pega en el elemento que pasemos
@@ -36,9 +55,30 @@ const domGenerator = function () {
     document.querySelector(".todos-container").appendChild(newTodo);
   };
 
+  const displayTodoDescription = function (newTodo) {
+    const descriptionEl = newTodo.querySelector(".description");
+    const dropIco = newTodo.querySelector(".drop");
+    if (descriptionEl.classList.contains("hide")) {
+      descriptionEl.classList.remove("hide");
+      dropIco.src = "../src/resource/chevron-up-outline.svg";
+    } else {
+      descriptionEl.classList.add("hide");
+      dropIco.src = "../src/resource/chevron-down-outline.svg";
+    }
+  };
+
+  const finishedTodoHandler = (todo, newT) => {
+    todo.finished();
+    if (todo.checked) {
+      newT.classList.add("finished");
+    } else {
+      newT.classList.remove("finished");
+    }
+  };
+
   const deleteTodoHandler = function (e, project) {
     if (project.todos.length === 0) return;
-    const TodoEl = e.target.closest(".todo");
+    const TodoEl = e.target.closest(".full-todo");
     project.deleteTodo(TodoEl.dataset.num);
     document.querySelector(".todos-container").removeChild(TodoEl);
   };
@@ -84,7 +124,7 @@ const domGenerator = function () {
 
     const newProject = document.createElement("main");
     newProject.classList.add("todo-section");
-    newProject.setAttribute("data-num", project.projecNum);
+    newProject.setAttribute("data-num", project.num);
     newProject.innerHTML = html;
 
     //agrega los todos al display

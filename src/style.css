@@ -16,7 +16,8 @@ html {
 }
 
 .header-title {
-  text-align: center;
+  text-align: left;
+  margin-left: 80px;
   padding: 15px 0;
 }
 
@@ -98,14 +99,19 @@ html {
   margin-bottom: 20px;
 }
 
+.full-todo {
+  border: 1px solid black;
+  flex-direction: column;
+  border-radius: 10px;
+}
+
 .todo {
   height: 60px;
-  border: 1px solid black;
+
   display: flex;
   justify-content: space-between;
   padding: 0 20px;
   align-items: center;
-  border-radius: 10px;
 }
 
 .front-todo,
@@ -117,5 +123,29 @@ html {
 }
 
 .back-todo {
-  gap: 100px;
+  gap: 50px;
+}
+
+.tittle-des {
+  font-size: 18px;
+  margin-left: 20px;
+}
+
+.text-des {
+  margin: 10px;
+  margin-left: 20px;
+  font-size: 15px;
+}
+
+/* Axiliar  */
+.finished {
+  text-decoration: line-through;
+}
+
+.drop {
+  height: 20px;
+}
+
+.hide {
+  display: none;
 }

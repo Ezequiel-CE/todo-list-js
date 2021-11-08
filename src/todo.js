@@ -9,7 +9,7 @@ class Todos {
   }
 
   finished() {
-    this.checked = true;
+    this.checked = !this.checked;
   }
 }
 
