@@ -1,5 +1,7 @@
-import { Todos } from "./todo";
 import { controller } from "./proyectController";
+import trashIcon from "./resource/trash.png";
+import dropIco from "./resource/chevron-down-outline.svg";
+import upIco from "./resource/chevron-up-outline.svg";
 
 const domGenerator = function () {
   const allProjectElements = [];
@@ -10,16 +12,19 @@ const domGenerator = function () {
       <div class="front-todo">
         <input type="checkbox" />
         <p class="todo-name">${todo.title}</p>
+        <input class="todo-title-change hide"  type="text" />
       </div>
       <div class="back-todo">
         <p class="todo-date">${todo.dueDate}</p>
-        <img class="drop" src="../src/resource/chevron-down-outline.svg" alt="icon-drop" />
-        <img class="todo-trash" src="../src/resource/trash.png" alt="icon-trash" />
+        <input class="todo-date-change hide"  type="date" value="2021-11-04" min="1966-01-01" max="2025-12-31" />
+        <img class="drop" src="${dropIco}" alt="icon-drop" />
+        <img class="todo-trash" src="${trashIcon}" alt="icon-trash" />
       </div>
     </div>
     <div class="description hide">
     <h2 class="tittle-des">Description</h2>
     <p class="text-des" >${todo.description}</p>
+    <input class="todo-description-change hide"  type="text" />
     </div>
     
   `;
@@ -47,6 +52,15 @@ const domGenerator = function () {
       displayTodoDescription(newTodo);
     });
 
+    //modificar titulo del todos
+    modifyTodoTittle(newTodo, todo);
+
+    //modificar la description
+    modifyTodoDescription(newTodo, todo);
+
+    //modificar date
+    modifyTodoDate(newTodo, todo);
+
     //si existe lo pega en el elemento que pasemos
     if (todoContainer) {
       todoContainer.appendChild(newTodo);
@@ -55,15 +69,72 @@ const domGenerator = function () {
     document.querySelector(".todos-container").appendChild(newTodo);
   };
 
+  const modifyTodoDate = function (todoEl, todo) {
+    const todoDate = todoEl.querySelector(".todo-date");
+    const inputEL = todoEl.querySelector(".todo-date-change");
+    todoDate.addEventListener("click", () => {
+      todoDate.classList.add("hide");
+      inputEL.classList.remove("hide");
+    });
+
+    inputEL.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        todoDate.textContent = e.target.value;
+        todo.changeDate(e.target.value);
+
+        todoDate.classList.remove("hide");
+        inputEL.classList.add("hide");
+      }
+    });
+  };
+
+  const modifyTodoDescription = function (todoEl, todo) {
+    const todoDescription = todoEl.querySelector(".text-des");
+    const inputEL = todoEl.querySelector(".todo-description-change");
+    todoDescription.addEventListener("click", () => {
+      todoDescription.classList.add("hide");
+      inputEL.classList.remove("hide");
+    });
+
+    inputEL.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        todoDescription.textContent = e.target.value;
+        todo.changeDescription(e.target.value);
+
+        todoDescription.classList.remove("hide");
+        inputEL.classList.add("hide");
+      }
+    });
+  };
+
+  const modifyTodoTittle = function (todoEl, todo) {
+    const tittleTodo = todoEl.querySelector(".todo-name");
+    const inputEL = todoEl.querySelector(".todo-title-change");
+    tittleTodo.addEventListener("click", () => {
+      tittleTodo.classList.add("hide");
+      inputEL.classList.remove("hide");
+    });
+
+    inputEL.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        tittleTodo.textContent = e.target.value;
+        todo.changeName(e.target.value);
+
+        tittleTodo.classList.remove("hide");
+        inputEL.classList.add("hide");
+      }
+    });
+  };
+
   const displayTodoDescription = function (newTodo) {
     const descriptionEl = newTodo.querySelector(".description");
     const dropIco = newTodo.querySelector(".drop");
     if (descriptionEl.classList.contains("hide")) {
       descriptionEl.classList.remove("hide");
-      dropIco.src = "../src/resource/chevron-up-outline.svg";
+      dropIco.src = upIco;
     } else {
       descriptionEl.classList.add("hide");
-      dropIco.src = "../src/resource/chevron-down-outline.svg";
+      dropIco.src = dropIco;
     }
   };
 
@@ -95,9 +166,9 @@ const domGenerator = function () {
       <div class="todos-container">
       
       </div>
-      <span class="add-project">+</span>
+      <span class="add-todo">+</span>
       <!-- form -->
-      <form class="form" id="form">
+      <form class="form hide" id="form-todo">
         <div class="container-input">
           <label for="title-todo">Todo Title</label>
           <input id="title-todo" type="text" required />
@@ -135,9 +206,13 @@ const domGenerator = function () {
     });
 
     //agrega crea el todo
-    const formBtnTodo = newProject.querySelector("#add-todo-btn");
-    formBtnTodo.addEventListener("click", (e) => {
+    const formTodo = newProject.querySelector("#form-todo");
+    formTodo.addEventListener("submit", (e) => {
+      const addBtn = newProject.querySelector(".add-todo");
       addTodoHandler(e, project);
+      addBtn.classList.remove("hide");
+      formTodo.classList.add("hide");
+      formTodo.reset();
     });
 
     //edita titulo
@@ -146,7 +221,18 @@ const domGenerator = function () {
       editProjectTittle(newProject, titleEl, project);
     });
 
+    //muestra form
+    displayForm(newProject, formTodo);
+
     document.querySelector(".app-container").appendChild(newProject);
+  };
+
+  const displayForm = function (projectEl, formEL) {
+    const addBtn = projectEl.querySelector(".add-todo");
+    addBtn.addEventListener("click", () => {
+      formEL.classList.remove("hide");
+      addBtn.classList.add("hide");
+    });
   };
 
   const editProjectTittle = function (project, tittle, projectObj) {
@@ -174,7 +260,7 @@ const domGenerator = function () {
     const titleData = document.getElementById("title-todo").value;
     const descriptionData = document.getElementById("todo-description").value;
     const dateData = document.getElementById("date-todo").value;
-    console.log(titleData, descriptionData, dateData);
+
     //crea y deviel el nuevo todo
     const newTodo = project.createTodo(titleData, descriptionData, dateData);
     createTodo(project, newTodo);
@@ -185,7 +271,7 @@ const domGenerator = function () {
   const createProjectLabel = function (project) {
     let html = `
       <p class="project-name">${project.name}</p>
-      <img src="../src/resource/trash.png" alt="trash" />
+      <img src="${trashIcon}" alt="trash" />
     `;
     //crea label y la pega en los ejemlos
     const label = document.createElement("div");
@@ -258,11 +344,48 @@ const domGenerator = function () {
     createProjectLabel(project);
   };
 
+  const example = function () {
+    const examplePro = controller.createProject(
+      "Example",
+      "Example description"
+    );
+
+    examplePro.createTodo("example1", "description", "any date");
+    examplePro.createTodo("example2", "description", "any date");
+
+    createProjectContent(examplePro);
+    createProjectLabel(examplePro);
+  };
+
+  const init = function () {
+    const formProject = document.querySelector("#form-project");
+    const btnProject = document.querySelector(".add-project");
+    formProject.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const titleName = document.getElementById("title-project").value;
+      const description = document.getElementById("project-description").value;
+      //crea el objeto y lo guarda en una variable
+      const newProject = controller.createProject(titleName, description);
+      generateNewProjectAndChange(newProject);
+      formProject.classList.add("hide");
+      btnProject.classList.remove("hide");
+
+      formProject.reset();
+    });
+
+    btnProject.addEventListener("click", () => {
+      btnProject.classList.add("hide");
+      formProject.classList.remove("hide");
+    });
+  };
+
   return {
     createTodo,
     createProjectContent,
     createProjectLabel,
     generateNewProjectAndChange,
+    example,
+    init,
   };
 };
 

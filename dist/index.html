@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Todo List</title>
-    <link rel="stylesheet" href="../src/style.css" />
+    <!-- <link rel="stylesheet" href="../src/style.css" /> -->
   </head>
   <body>
     <header class="header">
@@ -15,14 +15,9 @@
       <aside class="project-section">
         <h2 class="project-title">Projects</h2>
         <div class="separator"></div>
-        <div class="project-container">
-          <!-- <div class="project-el" data-num="0">
-            <p class="project-name">Example Project</p>
-            <img src="../src/resource/trash.png" alt="trash" />
-          </div> -->
-        </div>
+        <div class="project-container"></div>
         <span class="add-project">+</span>
-        <form class="form" id="form">
+        <form class="form-project hide" id="form-project">
           <div class="container-input">
             <label for="title-project">Project Title</label>
             <input id="title-project" type="text" required />
@@ -36,66 +31,7 @@
           <button type="submit" id="add-box-btn">Add a project</button>
         </form>
       </aside>
-      <!-- <main class="todo-section">
-        <div class="project-display">
-          <h2 class="display-tittle">Example project</h2>
-          <p class="display-description">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum
-            consequuntur a numquam veniam quos, cum maiores quo omnis autem
-            minus, odit architecto sunt porro animi provident repellat ducimus
-            laboriosam tempora!
-          </p>
-          <div class="separator"></div>
-          <div class="todos-container">
-            <div class="todo">
-              <div class="front-todo">
-                <input type="checkbox" />
-                <p class="todo-name">Name todo</p>
-              </div>
-              <div class="back-todo">
-                <p class="todo-date">3 months ago</p>
-                <img src="../src/resource/trash.png" alt="icon-trash" />
-              </div>
-            </div>
-            <div class="todo">
-              <div class="front-todo">
-                <input type="checkbox" />
-                <p class="todo-name">Name todo</p>
-              </div>
-              <div class="back-todo">
-                <p class="todo-date">3 months ago</p>
-                <img src="../src/resource/trash.png" alt="icon-trash" />
-              </div>
-            </div>
-          </div>
-          <span class="add-project">+</span>
-          
-          <form class="form" id="form">
-            <div class="container-input">
-              <label for="title-todo">Todo Title</label>
-              <input id="title-todo" type="text" required />
-            </div>
-
-            <div class="container-input">
-              <label for="todo-description">Todo desciption</label>
-              <input id="todo-description" type="text" required />
-            </div>
-            <div class="container-input">
-              <label for="date-todo">Date todo</label>
-              <input
-                id="date-todo"
-                type="date"
-                value="2021-11-04"
-                min="1966-01-01"
-                max="2025-12-31"
-                required
-              />
-            </div>
-            <button type="submit" id="add-box-btn">Add a todo</button>
-          </form>
-        </div>
-      </main> -->
     </div>
-    <script src="main.js"></script>
+    <script src="bundle.js"></script>
   </body>
 </html>

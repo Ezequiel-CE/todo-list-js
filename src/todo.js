@@ -11,6 +11,18 @@ class Todos {
   finished() {
     this.checked = !this.checked;
   }
+
+  changeName(name) {
+    this.name = name;
+  }
+
+  changeDescription(description) {
+    this.description = description;
+  }
+
+  changeDate(date) {
+    this.dueDate = date;
+  }
 }
 
 export { Todos };

@@ -80,7 +80,8 @@ html {
   padding: 30px 40px;
 }
 
-.display-tittle {
+.display-tittle,
+.title-change {
   font-size: 30px;
   margin-bottom: 10px;
 }
@@ -131,10 +132,22 @@ html {
   margin-left: 20px;
 }
 
-.text-des {
+.text-des,
+.todo-description-change {
   margin: 10px;
   margin-left: 20px;
   font-size: 15px;
+}
+
+.add-todo {
+  display: block;
+  text-align: center;
+  font-size: 60px;
+  cursor: pointer;
+}
+
+.todo-title-change {
+  font-size: 18px;
 }
 
 /* Axiliar  */
@@ -148,4 +161,53 @@ html {
 
 .hide {
   display: none;
+}
+
+/* forms */
+#form-project {
+  margin: 0 auto;
+  width: 200px;
+  font-size: 18px;
+  text-align: center;
+}
+
+#form-project input {
+  height: 30px;
+  width: 150px;
+  margin: 5px 0 10px 0;
+}
+
+#form-project button {
+  padding: 10px 20px;
+  font-size: 18px;
+  border-radius: 10px;
+  outline: none;
+  border: none;
+  color: white;
+  background: gray;
+  cursor: pointer;
+}
+
+#form-todo {
+  margin: 0 auto;
+  width: 200px;
+  font-size: 18px;
+  text-align: center;
+}
+
+#form-todo input {
+  height: 30px;
+  width: 150px;
+  margin: 5px 0 10px 0;
+}
+
+#form-todo button {
+  padding: 10px 20px;
+  font-size: 18px;
+  border-radius: 10px;
+  outline: none;
+  border: none;
+  color: white;
+  background: gray;
+  cursor: pointer;
 }

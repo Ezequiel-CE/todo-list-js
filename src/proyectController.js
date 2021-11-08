@@ -30,7 +30,6 @@ const controller = (function () {
 
     return projectIndex;
   };
-  const modifyProject = () => {};
 
   return {
     createProject,
