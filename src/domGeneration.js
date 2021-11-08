@@ -144,7 +144,7 @@ const domGenerator = function () {
   const deleteProjectHandler = (e) => {
     const labelProyect = e.target.closest(".project-el");
     //encuentra index del projecto y lo borrar del arr
-    const indexOfDeletedProject = controller.getIndexProjects(
+    let indexOfDeletedProject = controller.getIndexProjects(
       labelProyect.dataset.num
     );
     controller.DeleteProject(labelProyect.dataset.num);
@@ -152,6 +152,11 @@ const domGenerator = function () {
     //condicion para que no siga borrando si no hay proyectos
     if (controller.projects.length === 0) {
       document.querySelector(".todo-section").innerHTML = "";
+      return;
+    }
+    //evita que se rompa al borrar example quedando otro projecto
+    if (indexOfDeletedProject === 0) {
+      changeDisplayContent(controller.projects[indexOfDeletedProject]);
       return;
     }
     changeDisplayContent(controller.projects[indexOfDeletedProject - 1]);
