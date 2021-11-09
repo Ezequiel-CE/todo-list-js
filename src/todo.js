@@ -13,7 +13,7 @@ class Todos {
   }
 
   changeName(name) {
-    this.name = name;
+    this.title = name;
   }
 
   changeDescription(description) {

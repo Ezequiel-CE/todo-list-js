@@ -14,12 +14,14 @@ const controller = (function () {
   };
 
   //muesta el proyecto al hacer click en la label
-  const displayProject = () => {
-    generator.createProject(projects[0]);
+  const giveMethodOfTodo = function (name, description, num) {
+    const project = new Project(name, description, num);
+    return project;
   };
 
   const DeleteProject = (projectNumber) => {
     projects.splice(getIndexProjects(projectNumber), 1);
+    localStorage.setItem("Projects", JSON.stringify(projects));
   };
 
   //devuelve el index del elemento que queremos
@@ -33,10 +35,11 @@ const controller = (function () {
 
   return {
     createProject,
-    displayProject,
+
     projects,
     DeleteProject,
     getIndexProjects,
+    giveMethodOfTodo,
   };
 })();
 

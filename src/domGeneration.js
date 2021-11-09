@@ -1,6 +1,6 @@
 import { controller } from "./proyectController";
 import trashIcon from "./resource/trash.png";
-import dropIco from "./resource/chevron-down-outline.svg";
+import dropIcon from "./resource/chevron-down-outline.svg";
 import upIco from "./resource/chevron-up-outline.svg";
 
 const domGenerator = function () {
@@ -17,7 +17,7 @@ const domGenerator = function () {
       <div class="back-todo">
         <p class="todo-date">${todo.dueDate}</p>
         <input class="todo-date-change hide"  type="date" value="2021-11-04" min="1966-01-01" max="2025-12-31" />
-        <img class="drop" src="${dropIco}" alt="icon-drop" />
+        <img class="drop" src="${dropIcon}" alt="icon-drop" />
         <img class="todo-trash" src="${trashIcon}" alt="icon-trash" />
       </div>
     </div>
@@ -81,6 +81,8 @@ const domGenerator = function () {
       if (e.key === "Enter") {
         todoDate.textContent = e.target.value;
         todo.changeDate(e.target.value);
+        //actualiza store cuando cambia fecha
+        localStorage.setItem("Projects", JSON.stringify(controller.projects));
 
         todoDate.classList.remove("hide");
         inputEL.classList.add("hide");
@@ -100,6 +102,8 @@ const domGenerator = function () {
       if (e.key === "Enter") {
         todoDescription.textContent = e.target.value;
         todo.changeDescription(e.target.value);
+        //actualiza store cuando descripcion
+        localStorage.setItem("Projects", JSON.stringify(controller.projects));
 
         todoDescription.classList.remove("hide");
         inputEL.classList.add("hide");
@@ -119,6 +123,8 @@ const domGenerator = function () {
       if (e.key === "Enter") {
         tittleTodo.textContent = e.target.value;
         todo.changeName(e.target.value);
+        //actualiza store cuando descripcion
+        localStorage.setItem("Projects", JSON.stringify(controller.projects));
 
         tittleTodo.classList.remove("hide");
         inputEL.classList.add("hide");
@@ -134,7 +140,7 @@ const domGenerator = function () {
       dropIco.src = upIco;
     } else {
       descriptionEl.classList.add("hide");
-      dropIco.src = dropIco;
+      dropIco.src = dropIcon;
     }
   };
 
@@ -145,6 +151,8 @@ const domGenerator = function () {
     } else {
       newT.classList.remove("finished");
     }
+    //actualiza store cuando cambia el check
+    localStorage.setItem("Projects", JSON.stringify(controller.projects));
   };
 
   const deleteTodoHandler = function (e, project) {
@@ -152,6 +160,8 @@ const domGenerator = function () {
     const TodoEl = e.target.closest(".full-todo");
     project.deleteTodo(TodoEl.dataset.num);
     document.querySelector(".todos-container").removeChild(TodoEl);
+    //actualiza el local storage
+    localStorage.setItem("Projects", JSON.stringify(controller.projects));
   };
 
   const createProjectContent = function (project) {
@@ -203,6 +213,7 @@ const domGenerator = function () {
     const todoContainer = newProject.querySelector(".todos-container");
     project.todos.forEach((todo) => {
       createTodo(project, todo, todoContainer);
+      //
     });
 
     //agrega crea el todo
@@ -223,6 +234,9 @@ const domGenerator = function () {
 
     //muestra form
     displayForm(newProject, formTodo);
+
+    // //agrega al storage los proyectos
+    localStorage.setItem("Projects", JSON.stringify(controller.projects));
 
     document.querySelector(".app-container").appendChild(newProject);
   };
@@ -249,6 +263,8 @@ const domGenerator = function () {
         labelOfProject.children[0].textContent = e.target.value;
         tittle.classList.remove("hide");
         inputEL.classList.add("hide");
+        //actualiza store cuando cambia nombre
+        localStorage.setItem("Projects", JSON.stringify(controller.projects));
       }
     });
   };
@@ -264,6 +280,8 @@ const domGenerator = function () {
     //crea y deviel el nuevo todo
     const newTodo = project.createTodo(titleData, descriptionData, dateData);
     createTodo(project, newTodo);
+    //actualiza el storage al crear un todo
+    localStorage.setItem("Projects", JSON.stringify(controller.projects));
   };
 
   //// modificar nombre projecto
@@ -341,6 +359,7 @@ const domGenerator = function () {
     }
     //crea label y contenido quel o mete en array
     allProjectElements.push(createProjectContent(project));
+
     createProjectLabel(project);
   };
 
@@ -353,11 +372,15 @@ const domGenerator = function () {
     examplePro.createTodo("example1", "description", "any date");
     examplePro.createTodo("example2", "description", "any date");
 
+    localStorage.setItem("Projects", JSON.stringify([examplePro]));
+
     createProjectContent(examplePro);
     createProjectLabel(examplePro);
   };
 
   const init = function () {
+    lookForStorage();
+
     const formProject = document.querySelector("#form-project");
     const btnProject = document.querySelector(".add-project");
     formProject.addEventListener("submit", (e) => {
@@ -366,6 +389,7 @@ const domGenerator = function () {
       const description = document.getElementById("project-description").value;
       //crea el objeto y lo guarda en una variable
       const newProject = controller.createProject(titleName, description);
+
       generateNewProjectAndChange(newProject);
       formProject.classList.add("hide");
       btnProject.classList.remove("hide");
@@ -377,6 +401,40 @@ const domGenerator = function () {
       btnProject.classList.add("hide");
       formProject.classList.remove("hide");
     });
+  };
+
+  //se fija si existe un local storage
+  const lookForStorage = () => {
+    if (localStorage.getItem("Projects")) {
+      const projectStorage = JSON.parse(localStorage.getItem("Projects"));
+      projectStorage.forEach((project) => {
+        //crea los objetos con los metodos necesarios
+
+        const objWithMethods = controller.createProject(
+          project.name,
+          project.description
+        );
+        //pega nuevamente los valores
+        objWithMethods.todoNum = project.todoNum;
+        objWithMethods.todos = project.todos;
+        //agrega nuevamente los metodos a los todos del objeto
+        objWithMethods.todos.forEach((todo, i) => {
+          const todoWithMetods = objWithMethods.giveMethodOfTodo(
+            todo.title,
+            todo.description,
+            todo.dueDate,
+            todo.num
+          );
+          objWithMethods.todos[i] = todoWithMetods;
+        });
+
+        generateNewProjectAndChange(objWithMethods);
+      });
+      // //hace que siempre se ponga el examples
+      // changeDisplayContent(projectStorage[0]);
+    } else {
+      example();
+    }
   };
 
   return {

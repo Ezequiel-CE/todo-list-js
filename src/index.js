@@ -4,4 +4,3 @@ import "./style.css";
 const contentGenerator = domGenerator();
 
 contentGenerator.init();
-contentGenerator.example();

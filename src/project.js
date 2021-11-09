@@ -15,6 +15,11 @@ class Project {
     return newTodo;
   }
 
+  giveMethodOfTodo(title, description, data, num) {
+    const newTodo = new Todos(title, description, data, num);
+    return newTodo;
+  }
+
   deleteTodo(todoNum) {
     this.todos.splice(this.getIndexTodo(todoNum), 1);
   }
@@ -29,6 +34,10 @@ class Project {
 
   modifyTittle(newTittle) {
     this.name = newTittle;
+  }
+
+  getTodos() {
+    return this.todos;
   }
 }
 
